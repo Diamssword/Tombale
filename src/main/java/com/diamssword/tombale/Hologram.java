@@ -14,14 +14,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 public class Hologram implements Component<EntityStore> {
 	public static final BuilderCodec<Hologram> CODEC = BuilderCodec.builder(Hologram.class, Hologram::new).build();
-	public String messsage;
-	public Vector3d position;
-	public int rotation;
 
 	public Hologram(String messsage, Vector3d position, int rotation) {
-		this.messsage = messsage;
-		this.rotation = rotation;
-		this.position = position;
 	}
 
 	public Hologram() {
@@ -32,9 +26,6 @@ public class Hologram implements Component<EntityStore> {
 	@Override
 	public Component<EntityStore> clone() {
 		Hologram holo = new Hologram();
-		holo.messsage = this.messsage;
-		holo.position = this.position;
-		holo.rotation = this.rotation;
 		return holo;
 	}
 }
