@@ -1,6 +1,6 @@
 # Tombstone Mod
 
-![Tombstone Banner](https://your-image-link-here.png)
+![Tombstone Banner](https://raw.githubusercontent.com/Diamssword/Tombale/refs/heads/main/images/screen.gif)
 
 ---
 
@@ -15,7 +15,7 @@ A tombstone will generate only if some items are dropped on death.
 
 ---
 
-![Tombstone Demo](https://your-gif-link-here.gif)
+![Tombstone Demo](https://raw.githubusercontent.com/Diamssword/Tombale/refs/heads/main/images/demo.gif)
 
 ---
 
