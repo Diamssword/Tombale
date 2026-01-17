@@ -1,6 +1,6 @@
 # Tombstone Mod
 
-![Tombstone Banner](https://raw.githubusercontent.com/Diamssword/Tombale/refs/heads/main/images/screen.gif)
+![Tombstone Banner](https://raw.githubusercontent.com/Diamssword/Tombale/refs/heads/main/images/screen.png)
 
 ---
 
