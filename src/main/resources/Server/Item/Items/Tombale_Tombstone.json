@@ -1,0 +1,79 @@
+{
+  "Parent": "Furniture_Village_Tombstone",
+  "BlockType": {
+    "BlockParticleSetId": "Stone",
+    "BlockSoundSetId": "Tombstone",
+    "CustomModel": "Blocks/Tombale_Gravestone.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Blocks/Tombale_Gravestone_Texture.png",
+        "Weight": 1
+      }
+    ],
+    "DrawType": "Model",
+    "Flags": {},
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "Rocks"
+      }
+    },
+    "HitboxType": "Tombstone_Village",
+    "Material": "Solid",
+    "Opacity": "Transparent",
+    "ParticleColor": "#797668",
+    "State": {
+      "Id": "container",
+      "Capacity": 200,
+      "Definitions": {
+        "CloseWindow": {
+          "InteractionSoundEventId": "SFX_Chest_Wooden_Close",
+          "CustomModelAnimation": "Blocks/Animations/Chest/Chest_Close.blockyanim"
+        },
+        "OpenWindow": {
+          "InteractionSoundEventId": "SFX_Chest_Wooden_Open",
+          "CustomModelAnimation": "Blocks/Animations/Chest/Chest_Open.blockyanim"
+        }
+      }
+    },
+    "VariantRotation": "NESW",
+    "Support": {
+      "Down": [
+        {
+          "FaceType": "Full",
+          "Support": "Ignored"
+        }
+      ]
+    },
+    "Interactions": {
+      "Use": "Collect_Grave",
+      "Primary": "Break_Container"
+    },
+    "Particles": [
+      {
+        "SystemId": "Fire_Blue",
+        "TargetEntityPart": "Self",
+        "TargetNodeName": "Skull",
+        "PositionOffset": {
+          "Y": 0.4
+        },
+        "Scale": 0.8
+      }
+    ]
+  },
+  "Icon": "Icons/ItemsGenerated/Tombale_Tombstone.png",
+  "IconProperties": {
+    "Scale": 0.4,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      1,
+      -23
+    ]
+  },
+  "TranslationProperties": {
+    "Name": "server.items.Tombale_Tombstone.name"
+  }
+}

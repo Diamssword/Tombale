@@ -1,0 +1,6 @@
+{
+  "Type": "CollectGrave",
+  "Effects": {
+    "LocalSoundEventId": "SFX_Tombstone_Break"
+  }
+}
