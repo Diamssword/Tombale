@@ -13,27 +13,22 @@ import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
 import com.hypixel.hytale.server.core.asset.type.gameplay.DeathConfig;
-import com.hypixel.hytale.server.core.command.commands.player.inventory.InventoryClearCommand;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.entity.entities.ProjectileComponent;
 import com.hypixel.hytale.server.core.entity.nameplate.Nameplate;
-import com.hypixel.hytale.server.core.inventory.Inventory;
+import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathComponent;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathSystems;
 import com.hypixel.hytale.server.core.modules.entity.tracker.NetworkId;
-import com.hypixel.hytale.server.core.modules.interaction.BlockPlaceUtils;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
-import com.hypixel.hytale.server.core.universe.world.meta.state.ItemContainerState;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.math.util.MathUtil;
-import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
-import com.hypixel.hytale.server.core.inventory.transaction.ItemStackSlotTransaction;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
@@ -108,12 +103,18 @@ public class PlayerDeathTombSystem extends DeathSystems.OnDeathSystem {
 					if(emptyPos != null && setBlockWithRotation(world, emptyPos.x, emptyPos.y, emptyPos.z, "Tombale_Tombstone", getRandomCardinalIndex())) {
 
 						WorldChunk chunk = world.getChunkIfInMemory(ChunkUtil.indexChunkFromBlock(emptyPos.x, emptyPos.z));
-						if(chunk != null && chunk.getState(emptyPos.x, emptyPos.y, emptyPos.z) instanceof ItemContainerState containerState) {
-							if(!finalItemsToDrop.isEmpty()) {
-								finalItemsToDrop.forEach(stack -> {
-									containerState.getItemContainer().addItemStack(stack);
-								});
-								stored = true;
+						if(chunk != null) {
+							var container = chunk.getBlockComponentEntity(emptyPos.x, emptyPos.y, emptyPos.z);
+							if(container != null) {
+								var containerState = world.getChunkStore().getStore().getComponent(container, ItemContainerBlock.getComponentType());
+								if(containerState != null) {
+									if(!finalItemsToDrop.isEmpty()) {
+										finalItemsToDrop.forEach(stack -> {
+											containerState.getItemContainer().addItemStack(stack);
+										});
+										stored = true;
+									}
+								}
 							}
 						}
 						playerComponent.sendMessage(Message.translation("server.tombale.gravePos").param("pos", emptyPos.x + " " + emptyPos.y + " " + emptyPos.z));

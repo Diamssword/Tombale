@@ -21,20 +21,14 @@
     "Material": "Solid",
     "Opacity": "Transparent",
     "ParticleColor": "#797668",
-    "State": {
-      "Id": "container",
-      "Capacity": 200,
-      "Definitions": {
-        "CloseWindow": {
-          "InteractionSoundEventId": "SFX_Chest_Wooden_Close",
-          "CustomModelAnimation": "Blocks/Animations/Chest/Chest_Close.blockyanim"
-        },
-        "OpenWindow": {
-          "InteractionSoundEventId": "SFX_Chest_Wooden_Open",
-          "CustomModelAnimation": "Blocks/Animations/Chest/Chest_Open.blockyanim"
+    "BlockEntity": {
+      "Components": {
+        "ItemContainerBlock": {
+          "Capacity": 200
         }
       }
     },
+
     "VariantRotation": "NESW",
     "Support": {
       "Down": [
@@ -45,8 +39,7 @@
       ]
     },
     "Interactions": {
-      "Use": "Collect_Grave",
-      "Primary": "Break_Container"
+      "Use": "Collect_Grave"
     },
     "Particles": [
       {

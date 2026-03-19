@@ -7,7 +7,7 @@ build/
 
 ### Hytale ###
 run/
-
+devserver
 ### IntelliJ IDEA ###
 .idea/
 *.iws
