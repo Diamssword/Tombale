@@ -1,6 +1,5 @@
 package com.diamssword.tombale;
 
-import com.hypixel.hytale.builtin.crafting.interaction.OpenBenchPageInteraction;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.math.util.ChunkUtil;
@@ -10,6 +9,7 @@ import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
 import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
@@ -61,12 +61,13 @@ public class CollectGraveInteraction extends SimpleBlockInteraction {
 				if(itemContainerState != null) {
 
 					world.execute(() -> {
-						CombinedItemContainer combinedItemContainer = playerComponent.getInventory().getCombinedEverything();
+						CombinedItemContainer combinedInventoryComponent = InventoryComponent.getCombined(commandBuffer, ref, InventoryComponent.EVERYTHING);
+
 						var containerS = itemContainerState.getItemContainer();
 						for(short i = 0; i < containerS.getCapacity(); i++) {
 							var stack = containerS.getItemStack(i);
 							if(stack != null) {
-								containerS.setItemStackForSlot(i, combinedItemContainer.addItemStack(stack).getRemainder());
+								containerS.setItemStackForSlot(i, combinedInventoryComponent.addItemStack(stack).getRemainder());
 							}
 						}
 						if(!containerS.isEmpty()) {

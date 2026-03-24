@@ -16,6 +16,7 @@ import com.hypixel.hytale.server.core.asset.type.gameplay.DeathConfig;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.entity.entities.ProjectileComponent;
 import com.hypixel.hytale.server.core.entity.nameplate.Nameplate;
+import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathComponent;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathSystems;
@@ -59,29 +60,29 @@ public class PlayerDeathTombSystem extends DeathSystems.OnDeathSystem {
 		Player playerComponent = store.getComponent(ref, Player.getComponentType());
 		assert playerComponent != null;
 		if(playerComponent.getGameMode() != GameMode.Creative) {
-			CombinedItemContainer combinedItemContainer = playerComponent.getInventory().getCombinedEverything();
+			CombinedItemContainer combinedInventoryComponent = InventoryComponent.getCombined(commandBuffer, ref, InventoryComponent.EVERYTHING);
 			List<ItemStack> itemsToDrop = null;
 			switch(component.getItemsLossMode()) {
 				case ALL:
-					itemsToDrop = playerComponent.getInventory().dropAllItemStacks();
-					playerComponent.getInventory().clear();
+					itemsToDrop = combinedInventoryComponent.dropAllItemStacks();
+					combinedInventoryComponent.clear();
 					break;
 				case CONFIGURED:
 					double itemsAmountLossPercentage = component.getItemsAmountLossPercentage();
 					if(itemsAmountLossPercentage > (double) 0.0F) {
 						double itemAmountLossRatio = itemsAmountLossPercentage / (double) 100.0F;
-						itemsToDrop = new ObjectArrayList();
-						for(short i = 0; i < combinedItemContainer.getCapacity(); ++i) {
-							ItemStack itemStack = combinedItemContainer.getItemStack(i);
+						itemsToDrop = new ObjectArrayList<>();
+						for(short i = 0; i < combinedInventoryComponent.getCapacity(); ++i) {
+							ItemStack itemStack = combinedInventoryComponent.getItemStack(i);
 							if(!ItemStack.isEmpty(itemStack) && itemStack.getItem().dropsOnDeath()) {
 								int quantityToLose = Math.max(1, MathUtil.floor((double) itemStack.getQuantity() * itemAmountLossRatio));
 								itemsToDrop.add(itemStack.withQuantity(quantityToLose));
 								int newQuantity = itemStack.getQuantity() - quantityToLose;
 								if(newQuantity > 0) {
 									ItemStack updatedItemStack = itemStack.withQuantity(newQuantity);
-									combinedItemContainer.replaceItemStackInSlot(i, itemStack, updatedItemStack);
+									combinedInventoryComponent.replaceItemStackInSlot(i, itemStack, updatedItemStack);
 								} else {
-									combinedItemContainer.removeItemStackFromSlot(i);
+									combinedInventoryComponent.removeItemStackFromSlot(i);
 								}
 							}
 						}
@@ -109,9 +110,7 @@ public class PlayerDeathTombSystem extends DeathSystems.OnDeathSystem {
 								var containerState = world.getChunkStore().getStore().getComponent(container, ItemContainerBlock.getComponentType());
 								if(containerState != null) {
 									if(!finalItemsToDrop.isEmpty()) {
-										finalItemsToDrop.forEach(stack -> {
-											containerState.getItemContainer().addItemStack(stack);
-										});
+										finalItemsToDrop.forEach(stack -> containerState.getItemContainer().addItemStack(stack));
 										stored = true;
 									}
 								}
