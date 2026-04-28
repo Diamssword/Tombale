@@ -8,6 +8,7 @@ import com.hypixel.hytale.server.core.modules.entity.component.TransformComponen
 import com.hypixel.hytale.server.core.modules.entity.tracker.EntityTrackerSystems;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
+import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,7 +36,8 @@ public class HologramSystem extends EntityTickingSystem<EntityStore> {
 		assert transformComponent != null;
 
 		store.getExternalData().getWorld().execute(() -> {
-			var vec = transformComponent.getPosition().toVector3i();
+			var p = transformComponent.getPosition();
+			var vec = new Vector3i((int) p.x, (int) p.y, (int) p.z);
 			var block = commandBuffer.getExternalData().getWorld().getBlock(vec);
 			if(BlockType.getAssetMap().getIndex("Tombale_Tombstone") != block) {
 				store.removeEntity(archetypeChunk.getReferenceTo(index), RemoveReason.REMOVE);

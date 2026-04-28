@@ -5,7 +5,7 @@ import com.hypixel.hytale.component.dependency.Dependency;
 import com.hypixel.hytale.component.dependency.Order;
 import com.hypixel.hytale.component.dependency.SystemDependency;
 import com.hypixel.hytale.math.util.ChunkUtil;
-import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.protocol.BlockRotation;
 import com.hypixel.hytale.protocol.GameMode;
 import com.hypixel.hytale.protocol.Rotation;
@@ -21,12 +21,12 @@ import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBloc
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathComponent;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathSystems;
 import com.hypixel.hytale.server.core.modules.entity.tracker.NetworkId;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.math.util.MathUtil;
-import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
@@ -34,6 +34,8 @@ import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import org.joml.Vector3d;
+import org.joml.Vector3i;
 
 import java.util.List;
 import java.util.Set;
@@ -58,7 +60,9 @@ public class PlayerDeathTombSystem extends DeathSystems.OnDeathSystem {
 	@Override
 	public void onComponentAdded(@Nonnull Ref<EntityStore> ref, @Nonnull DeathComponent component, @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer) {
 		Player playerComponent = store.getComponent(ref, Player.getComponentType());
+		PlayerRef playerRefComponent = store.getComponent(ref, PlayerRef.getComponentType());
 		assert playerComponent != null;
+		assert playerRefComponent != null;
 		if(playerComponent.getGameMode() != GameMode.Creative) {
 			CombinedItemContainer combinedInventoryComponent = InventoryComponent.getCombined(commandBuffer, ref, InventoryComponent.EVERYTHING);
 			List<ItemStack> itemsToDrop = null;
@@ -116,18 +120,18 @@ public class PlayerDeathTombSystem extends DeathSystems.OnDeathSystem {
 								}
 							}
 						}
-						playerComponent.sendMessage(Message.translation("server.tombale.gravePos").param("pos", emptyPos.x + " " + emptyPos.y + " " + emptyPos.z));
+						playerRefComponent.sendMessage(Message.translation("server.tombale.gravePos").param("pos", emptyPos.x + " " + emptyPos.y + " " + emptyPos.z));
 						Holder<EntityStore> holder = EntityStore.REGISTRY.newHolder();
 
 						ProjectileComponent projectileComponent = new ProjectileComponent("Projectile");
 						holder.putComponent(ProjectileComponent.getComponentType(), projectileComponent);
-						holder.putComponent(TransformComponent.getComponentType(), new TransformComponent(emptyPos.toVector3d().add(0.5, 1.2, 0.5), transf.getRotation().clone()));
+						holder.putComponent(TransformComponent.getComponentType(), new TransformComponent(new Vector3d(emptyPos).add(0.5, 1.2, 0.5), transf.getRotation().clone()));
 						holder.ensureComponent(UUIDComponent.getComponentType());
 						if(projectileComponent.getProjectile() == null) {
 							projectileComponent.initialize();
 						}
 						holder.ensureComponent(Tombale.holoComponentType);
-						holder.addComponent(Nameplate.getComponentType(), new Nameplate(playerComponent.getDisplayName()));
+						holder.addComponent(Nameplate.getComponentType(), new Nameplate(playerRefComponent.getUsername()));
 						holder.addComponent(NetworkId.getComponentType(), new NetworkId(store.getExternalData().takeNextNetworkId()));
 						world.getEntityStore().getStore().addEntity(holder, AddReason.SPAWN);
 
@@ -136,8 +140,8 @@ public class PlayerDeathTombSystem extends DeathSystems.OnDeathSystem {
 					{
 						HeadRotation headRotationComponent = store.getComponent(ref, HeadRotation.getComponentType());
 						assert headRotationComponent != null;
-						Vector3f headRotation = headRotationComponent.getRotation();
-						Holder<EntityStore>[] drops = ItemComponent.generateItemDrops(store, finalItemsToDrop, pos.clone().add((double) 0.0F, (double) 1.0F, (double) 0.0F), headRotation);
+						Rotation3f headRotation = headRotationComponent.getRotation();
+						Holder<EntityStore>[] drops = ItemComponent.generateItemDrops(store, finalItemsToDrop, new Vector3d(pos).add(0.0, 1.0, 0.0), headRotation);
 						commandBuffer.addEntities(drops, AddReason.SPAWN);
 					}
 				});
