@@ -1,0 +1,4 @@
+message.death = Your grave was placed at {pos}
+marker.death = Grave (Day {day})
+marker.death.pos = Grave (Day {day}) ({pos})
+items.Tombstone.name=Player Tombstone

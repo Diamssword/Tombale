@@ -85,7 +85,11 @@ public class CollectGraveInteraction extends SimpleBlockInteraction {
 							});
 
 						}
+						var marker = ref.getStore().getComponent(ref, Tombale.markerComponentType);
+
 						world.breakBlock(pos.x, pos.y, pos.z, 0);
+						if(marker != null)
+							marker.removeGraveAt(world.getName(), ref, pos);
 					});
 
 

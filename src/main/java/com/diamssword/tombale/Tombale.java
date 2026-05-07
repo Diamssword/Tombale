@@ -8,6 +8,7 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Roo
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.core.util.Config;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -17,16 +18,24 @@ import java.util.List;
  * event listeners.
  */
 public class Tombale extends JavaPlugin {
-
+	public static Tombale instance;
 	public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 	public static ComponentType<EntityStore, Hologram> holoComponentType;
+	public static ComponentType<EntityStore, TombaleMarkerComponent> markerComponentType;
+	private final Config<TombaleConfig> config = this.withConfig(TombaleConfig.CODEC);
 
 	public Tombale(@Nonnull JavaPluginInit init) {
 		super(init);
+		instance = this;
+	}
+
+	public Config<TombaleConfig> getConfig() {
+		return config;
 	}
 
 	@Override
 	protected void setup() {
+		config.save();
 		LOGGER.atInfo().log("The dead deserve a proper Burial");
 
 		AssetRegistry.getAssetStore(Interaction.class)
@@ -39,6 +48,7 @@ public class Tombale extends JavaPlugin {
 						getName(), List.of(CollectGraveInteraction.GRAVE_ROOT)
 				);
 		this.getCodecRegistry(Interaction.CODEC).register("CollectGrave", CollectGraveInteraction.class, CollectGraveInteraction.CODEC);
+		markerComponentType = this.getEntityStoreRegistry().registerComponent(TombaleMarkerComponent.class, "Tombale_Marker_Provider", TombaleMarkerComponent.CODEC);
 		this.getEntityStoreRegistry().registerSystem(new PlayerDeathTombSystem());
 		holoComponentType = this.getEntityStoreRegistry().registerComponent(Hologram.class, "TombaleHologram", Hologram.CODEC);
 		this.getEntityStoreRegistry().registerSystem(new HologramSystem());
