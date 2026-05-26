@@ -19,7 +19,6 @@ public class Hologram implements Component<EntityStore> {
 	@NullableDecl
 	@Override
 	public Component<EntityStore> clone() {
-		Hologram holo = new Hologram();
-		return holo;
+		return new Hologram();
 	}
 }

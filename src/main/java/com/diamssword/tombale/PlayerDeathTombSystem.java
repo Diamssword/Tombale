@@ -6,9 +6,7 @@ import com.hypixel.hytale.component.dependency.Order;
 import com.hypixel.hytale.component.dependency.SystemDependency;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.math.vector.Rotation3f;
-import com.hypixel.hytale.math.vector.Transform;
 import com.hypixel.hytale.protocol.BlockRotation;
-import com.hypixel.hytale.protocol.Color;
 import com.hypixel.hytale.protocol.GameMode;
 import com.hypixel.hytale.protocol.Rotation;
 import com.hypixel.hytale.server.core.Message;
@@ -23,7 +21,6 @@ import com.hypixel.hytale.server.core.entity.entities.player.data.PlayerWorldDat
 import com.hypixel.hytale.server.core.entity.nameplate.Nameplate;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
-import com.hypixel.hytale.server.core.modules.entity.component.DisplayNameComponent;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathComponent;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathSystems;
 import com.hypixel.hytale.server.core.modules.entity.tracker.NetworkId;
@@ -40,7 +37,6 @@ import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
-import com.hypixel.hytale.server.core.universe.world.worldmap.markers.user.UserMapMarker;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
@@ -49,7 +45,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import javax.annotation.Nonnull;
 
 public class PlayerDeathTombSystem extends DeathSystems.OnDeathSystem {

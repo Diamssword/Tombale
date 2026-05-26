@@ -1,7 +1,7 @@
 {
     "Group": "Diamssword",
     "Name": "Tombale",
-    "Version": "0.0.5",
+    "Version": "1.0",
     "Description": "A grave mod for Hytale!",
     "Authors": [
         {
@@ -16,6 +16,6 @@
         "Hytale:DamageModule": "*"
     },
     "OptionalDependencies": {},
-    "ServerVersion": "2026.04.23-3f4475f43",
+    "ServerVersion": "0.5.0",
     "Main": "com.diamssword.tombale.Tombale"
 }
