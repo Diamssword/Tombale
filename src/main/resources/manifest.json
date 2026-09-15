@@ -1,21 +1,26 @@
 {
-    "Group": "Diamssword",
-    "Name": "Tombale",
-    "Version": "1.0",
-    "Description": "A grave mod for Hytale!",
+    "Group": "com.diamssword",
+    "Name": "tombale",
+    "Version": "1.0.1",
+    "Description": "A grave mod to keep your items safe ! ",
     "Authors": [
         {
             "Name": "Diamssword"
         }
     ],
-    "Website": "",
+    "Website": "https://www.curseforge.com/hytale/mods/tombale",
     "DisabledByDefault": false,
     "IncludesAssetPack": true,
     "Dependencies": {
-        "Hytale:EntityModule": "*",
-        "Hytale:DamageModule": "*"
+        "Hytale:AssetModule": "*",
+        "Hytale:EntityModule": "*"
     },
-    "OptionalDependencies": {},
-    "ServerVersion": "0.5.0",
-    "Main": "com.diamssword.tombale.Tombale"
+    "OptionalDependencies": {
+        
+    },
+    "ServerVersion": ">=0.6.6 <0.7.0",
+    "Main": "com.diamssword.tombale.Tombale",
+    "UpdateChecker": {
+        "CurseForge": ""
+    }
 }

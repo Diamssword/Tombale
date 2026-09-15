@@ -1,0 +1,17 @@
+# Generated for Tombale
+# version_catalog_mode=rich
+
+[versions]
+hytale = "0.6.6"
+hytaleTools = "1.+"
+hytalePublisher = "1.+"
+foojayResolver = "1.0.0"
+kotlin = "2.3.20"
+
+[plugins]
+hytaleTools = { id = "com.azuredoom.hytale-tools", version.ref = "hytaleTools" }
+hytalePublisher = { id = "com.azuredoom.hytalepublisher", version.ref = "hytalePublisher" }
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+
+[libraries]
+hytaleServer = { module = "com.hypixel.hytale:Server", version.ref = "hytale" }

@@ -1,0 +1,1 @@
+Updated manifest to latest version
